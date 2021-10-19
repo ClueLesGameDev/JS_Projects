@@ -26,7 +26,7 @@
        
         let interval;
         let score;
-        let bricksRemaining;
+        let totalBricks;
 
         let leftPressed;
         let rightPressed;
@@ -34,6 +34,7 @@
         DrawPaddle();
         DrawBall();
         DrawBricks();
+        DrawScore();
         NavigationCotroll();
 
         function StartGame()
@@ -178,6 +179,7 @@
                 if(x + dx > paddleX && x + dx < (paddleX + paddleW))
                 {
                     dy = -dy;
+                    dx = dx + ( x + dx - paddleX)/100;
                 }
             }
             if(y + dy <= 0)
@@ -195,7 +197,6 @@
                         {
                             dy = -dy;
                             bricks[i][j].isVisible = false;
-                            bricksRemaining -= 1;
                             score += 1;
                         }
                    }
@@ -206,7 +207,7 @@
 
         function GameOver()
         {
-            if(bricksRemaining === 0)
+            if(score === totalBricks)
             {
                 InitVar();
                 clearInterval(interval);
@@ -226,7 +227,6 @@
         function InitVar()
         {
             score = 0;
-            bricksRemaining = 0
 
             leftPressed = false;
             rightPressed = false;
@@ -242,13 +242,13 @@
 
             brickRowCount = 4;
             brickColCount = 5;
+            totalBricks = brickRowCount * brickColCount;
             for(let i = 0; i < brickColCount; i++)
             {
                 bricks[i] = [];
                 for(let j = 0; j < brickRowCount; j++)
                 {
                     bricks[i][j] = { x:0, y:0, isVisible:true };
-                    bricksRemaining += 1;
                 }
 
             }
